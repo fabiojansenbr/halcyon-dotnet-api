@@ -1,0 +1,14 @@
+{
+  "files.exclude": {
+    ".vs": true,
+    "**/PublishProflles": true,
+    "**/artifacts": true,
+    "**/bin": true,
+    "**/obj": true,
+    "**/*.suo": true,
+    "**/*.user": true
+  },
+  "editor.tabSize": 4,
+  "editor.autoIndent": true,
+  "editor.detectIndentation": false
+}

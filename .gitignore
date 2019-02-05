@@ -1,0 +1,10 @@
+﻿artifacts
+bin
+obj
+PublishProfiles
+.vs
+*.suo
+*.user
+*.cache
+appsettings.*.json
+.env
