@@ -55,13 +55,16 @@ az appservice plan create `
     -g "$DEPLOY_RESOURCEGROUP" `
     -l "$DEPLOY_LOCATION" `
     -n "$DEPLOY_APPSERVICEPLAN" `
-    --sku "SHARED"
+    --sku "B1" `
+    --is-linux
 
 Write-Host "Creating Web App..." -ForegroundColor Green
 az webapp create `
     -g "$DEPLOY_RESOURCEGROUP" `
     -p "$DEPLOY_APPSERVICEPLAN" `
-    -n "$DEPLOY_APPSERVICE"
+    -n "$DEPLOY_APPSERVICE" `
+    --runtime "DOTNETCORE`"|`"2.2" `
+    --startup-file "dotnet Halcyon.Api.dll"
 
 Write-Host "Setting Host Name..." -ForegroundColor Green
 az webapp config hostname add `
@@ -85,14 +88,14 @@ az webapp config appsettings set `
     -g "$DEPLOY_RESOURCEGROUP" `
     -n "$DEPLOY_APPSERVICE" `
     --settings `
-    Jwt:SecurityKey="$JWT_SECURITYKEY" `
-    Seed:EmailAddress="$SEED_EMAILADDRESS" `
-    Seed:Password="$SEED_PASSWORD" `
-    Email:Host="$EMAIL_HOST" `
-    Email:Port="$EMAIL_PORT" `
-    Email:Username="$EMAIL_USERNAME" `
-    Email:Password="$EMAIL_PASSWORD" `
-    Email:NoReplyAddress="$EMAIL_NOREPLY" `
-    Authentication:Facebook:AppId="$FACEBOOK_APPID" `
-    Authentication:Facebook:AppSecret="$FACEBOOK_APPSECRET" `
-    Authentication:Google:ClientId="$GOOGLE_CLIENTID"
+    Jwt__SecurityKey="$JWT_SECURITYKEY" `
+    Seed__EmailAddress="$SEED_EMAILADDRESS" `
+    Seed__Password="$SEED_PASSWORD" `
+    Email__Host="$EMAIL_HOST" `
+    Email__Port="$EMAIL_PORT" `
+    Email__Username="$EMAIL_USERNAME" `
+    Email__Password="$EMAIL_PASSWORD" `
+    Email__NoReplyAddress="$EMAIL_NOREPLY" `
+    Authentication__Facebook__AppId="$FACEBOOK_APPID" `
+    Authentication__Facebook__AppSecret="$FACEBOOK_APPSECRET" `
+    Authentication__Google__ClientId="$GOOGLE_CLIENTID"
