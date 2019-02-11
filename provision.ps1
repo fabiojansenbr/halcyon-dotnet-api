@@ -63,7 +63,7 @@ az webapp create `
     -g "$DEPLOY_RESOURCEGROUP" `
     -p "$DEPLOY_APPSERVICEPLAN" `
     -n "$DEPLOY_APPSERVICE" `
-    --runtime "DOTNETCORE`"|`"2.2" `
+    --runtime "DOTNETCORE`"|`"2.1" `
     --startup-file "dotnet Halcyon.Api.dll"
 
 Write-Host "Setting Host Name..." -ForegroundColor Green
