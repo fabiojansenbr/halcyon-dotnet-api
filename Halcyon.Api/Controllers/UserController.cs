@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Halcyon.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [Authorize(Roles = "System Administrator, User Administrator")]
     [Produces("application/json")]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]

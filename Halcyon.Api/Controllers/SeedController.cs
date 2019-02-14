@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Halcyon.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [Produces("application/json")]
     public class SeedController : Controller
     {

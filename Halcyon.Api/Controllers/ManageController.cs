@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Halcyon.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [Authorize]
     [Produces("application/json")]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
