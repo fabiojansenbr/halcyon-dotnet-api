@@ -1,6 +1,6 @@
 # Halcyon .NET Api
 
-A .NET Core api project template.
+A .NET Core REST api project template.
 
 [https://halcyon-dotnet-api.chrispoulter.com](https://halcyon-dotnet-api.chrispoulter.com)
 
