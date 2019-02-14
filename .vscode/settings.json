@@ -2,7 +2,6 @@
   "files.exclude": {
     ".vs": true,
     "**/PublishProflles": true,
-    "**/artifacts": true,
     "**/bin": true,
     "**/obj": true,
     "**/*.suo": true,
