@@ -38,28 +38,12 @@ namespace Halcyon.Api.Controllers
         public async Task<IActionResult> Index(int page = 1, int size = 10, string search = null, string sort = null)
         {
             var result = await _userRepository.SearchUsers(page, size, search, sort);
-            var model = result.MapPaginatedList<UserListModel, User, UserSummaryModel>(UserSummaryMapper);
+            var model = result.MapPaginatedList<UserListModel, User, UserModel>(UserMapper);
 
             model.Search = search;
             model.Sort = sort;
 
             return _responseService.GenerateResponse(HttpStatusCode.OK, model);
-        }
-
-        private UserSummaryModel UserSummaryMapper(User user)
-        {
-            return new UserSummaryModel
-            {
-                Id = user.Id,
-                EmailAddress = user.EmailAddress,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                IsLockedOut = user.IsLockedOut,
-                HasPassword = user.HasPassword,
-                EmailConfirmed = user.EmailConfirmed,
-                TwoFactorEnabled = user.TwoFactorEnabled,
-                Picture = user.Picture
-            };
         }
 
         [HttpGet("{id}")]
@@ -73,21 +57,7 @@ namespace Halcyon.Api.Controllers
                 return _responseService.GenerateResponse(HttpStatusCode.NotFound, "User could not be found.");
             }
 
-            var model = new UserModel
-            {
-                Id = user.Id,
-                EmailAddress = user.EmailAddress,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                DateOfBirth = user.DateOfBirth,
-                IsLockedOut = user.IsLockedOut,
-                HasPassword = user.HasPassword,
-                EmailConfirmed = user.EmailConfirmed,
-                TwoFactorEnabled = user.TwoFactorEnabled,
-                Picture = user.Picture,
-                Roles = user.Roles.Select(a => a.Name)
-            };
-
+            var model = UserMapper(user);
             return _responseService.GenerateResponse(HttpStatusCode.OK, model);
         }
 
@@ -216,6 +186,25 @@ namespace Halcyon.Api.Controllers
             await _userRepository.RemoveUser(user);
 
             return _responseService.GenerateResponse(HttpStatusCode.OK, "User successfully deleted.");
+        }
+
+        private UserModel UserMapper(User user)
+        {
+            return new UserModel
+            {
+                Id = user.Id,
+                EmailAddress = user.EmailAddress,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                DateOfBirth = user.DateOfBirth,
+                IsLockedOut = user.IsLockedOut,
+                HasPassword = user.HasPassword,
+                EmailConfirmed = user.EmailConfirmed,
+                TwoFactorEnabled = user.TwoFactorEnabled,
+                Picture = user.Picture,
+                Roles = user.Roles.Select(a => a.Name),
+                Logins = user.Logins.Select(a => new ExternalLoginModel(a.Provider, a.ExternalId))
+            };
         }
     }
 }

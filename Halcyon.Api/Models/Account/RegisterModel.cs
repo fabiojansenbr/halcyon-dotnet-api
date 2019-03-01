@@ -1,9 +1,9 @@
-﻿using Halcyon.Api.Models.Manage;
+﻿using Halcyon.Api.Models.User;
 using System.ComponentModel.DataAnnotations;
 
 namespace Halcyon.Api.Models.Account
 {
-    public class RegisterModel : BaseProfileModel
+    public class RegisterModel : BaseUserModel
     {
         [Display(Name = "Password")]
         [Required]

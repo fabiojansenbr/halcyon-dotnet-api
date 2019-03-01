@@ -1,6 +1,8 @@
-﻿namespace Halcyon.Api.Models.Manage
+﻿using Halcyon.Api.Models.User;
+
+namespace Halcyon.Api.Models.Manage
 {
-    public class UpdateProfileModel : BaseProfileModel
+    public class UpdateProfileModel : BaseUserModel
     {
     }
 }

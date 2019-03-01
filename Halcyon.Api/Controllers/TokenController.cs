@@ -28,7 +28,7 @@ namespace Halcyon.Api.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(ResponseModel<JwtModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ResponseModel<TokenModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ResponseModel), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetToken([FromBody] GetTokenModel model)
         {

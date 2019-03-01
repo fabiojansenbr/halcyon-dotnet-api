@@ -1,6 +1,6 @@
 ﻿using Halcyon.Api.Services.Providers;
 
-namespace Halcyon.Api.Models.Manage
+namespace Halcyon.Api.Models.User
 {
     public class ExternalLoginModel
     {

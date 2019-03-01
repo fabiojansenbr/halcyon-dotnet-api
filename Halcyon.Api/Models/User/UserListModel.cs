@@ -1,6 +1,6 @@
 ﻿namespace Halcyon.Api.Models.User
 {
-    public class UserListModel : PaginatedList<UserSummaryModel>
+    public class UserListModel : PaginatedList<UserModel>
     {
         public string Search { get; set; }
 

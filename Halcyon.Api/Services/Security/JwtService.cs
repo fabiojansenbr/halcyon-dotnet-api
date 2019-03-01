@@ -26,7 +26,7 @@ namespace Halcyon.Api.Services.Security
             _jwtSettings = jwtSettings.Value;
         }
 
-        public async Task<JwtModel> GenerateToken(User user)
+        public async Task<TokenModel> GenerateToken(User user)
         {
             var claims = new List<Claim>
             {
@@ -54,7 +54,7 @@ namespace Halcyon.Api.Services.Security
             var accessToken = new JwtSecurityTokenHandler().WriteToken(token);
             var refreshToken = await GenerateRefreshToken(user);
 
-            return new JwtModel
+            return new TokenModel
             {
                 AccessToken = accessToken,
                 RefreshToken = refreshToken

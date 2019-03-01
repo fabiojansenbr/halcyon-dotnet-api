@@ -2,7 +2,7 @@
 
 namespace Halcyon.Api.Services.Security
 {
-    public class JwtModel
+    public class TokenModel
     {
         public string AccessToken { get; set; }
 

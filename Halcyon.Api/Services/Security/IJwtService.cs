@@ -5,6 +5,6 @@ namespace Halcyon.Api.Services.Security
 {
     public interface IJwtService
     {
-        Task<JwtModel> GenerateToken(User user);
+        Task<TokenModel> GenerateToken(User user);
     }
 }

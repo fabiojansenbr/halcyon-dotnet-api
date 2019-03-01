@@ -1,6 +1,7 @@
 ﻿using Halcyon.Api.Entities;
 using Halcyon.Api.Models.Email;
 using Halcyon.Api.Models.Manage;
+using Halcyon.Api.Models.User;
 using Halcyon.Api.Repositories;
 using Halcyon.Api.Services.Email;
 using Halcyon.Api.Services.Providers;
@@ -9,7 +10,6 @@ using Halcyon.Api.Services.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -47,7 +47,7 @@ namespace Halcyon.Api.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(ResponseModel<ProfileModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ResponseModel<UserModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetProfile()
         {
             var user = await _userRepository.GetUserById(HttpContext.User.Identity.Name);
@@ -56,16 +56,19 @@ namespace Halcyon.Api.Controllers
                 return _responseService.GenerateResponse(HttpStatusCode.NotFound, "User could not be found.");
             }
 
-            var model = new ProfileModel
+            var model = new UserModel
             {
+                Id = user.Id,
                 EmailAddress = user.EmailAddress,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 DateOfBirth = user.DateOfBirth,
+                IsLockedOut = user.IsLockedOut,
                 HasPassword = user.HasPassword,
                 EmailConfirmed = user.EmailConfirmed,
                 TwoFactorEnabled = user.TwoFactorEnabled,
                 Picture = user.Picture,
+                Roles = user.Roles.Select(a => a.Name),
                 Logins = user.Logins.Select(a => new ExternalLoginModel(a.Provider, a.ExternalId))
             };
 
@@ -277,7 +280,7 @@ namespace Halcyon.Api.Controllers
         }
 
         [HttpPost("TwoFactor")]
-        [ProducesResponseType(typeof(ResponseModel<IEnumerable<string>>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ResponseModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ResponseModel), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> EnableTwoFactor([FromBody] EnableTwoFactorModel model)
         {
