@@ -1,6 +1,7 @@
 ﻿bin
 obj
 PublishProfiles
+.serverless
 .vs
 *.suo
 *.user
