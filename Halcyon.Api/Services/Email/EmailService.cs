@@ -33,7 +33,7 @@ namespace Halcyon.Api.Services.Email
 
             var message = new MailMessage();
             message.To.Add(model.ToAddress);
-            message.From = new MailAddress(_emailSettings.NoReplyAddress);
+            message.From = new MailAddress(_emailSettings.NoReply);
             message.Subject = subject;
             message.IsBodyHtml = true;
             message.Body = html;

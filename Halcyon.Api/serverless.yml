@@ -1,0 +1,32 @@
+service: halcyon-dotnet-api
+
+provider:
+  name: aws
+  runtime: dotnetcore2.1
+  stage: dev
+  region: eu-west-1
+  memorySize: 1024
+  logRetentionInDays: 3
+  environment:
+    CONNECTIONSTRINGS__DEFAULTCONNECTION: ${env:CONNECTIONSTRINGS__DEFAULTCONNECTION, ''}
+    JWT__SECURITYKEY: ${env:JWT__SECURITYKEY, ''}
+    SEED__EMAILADDRESS: ${env:SEED__EMAILADDRESS, ''}
+    SEED__PASSWORD: ${env:SEED__PASSWORD, ''}
+    EMAIL__HOST: ${env:EMAIL__HOST, ''}
+    EMAIL__PORT: ${env:EMAIL__PORT, ''}
+    EMAIL__USERNAME: ${env:EMAIL__USERNAME, ''}
+    EMAIL__PASSWORD: ${env:EMAIL__PASSWORD, ''}
+    EMAIL__NOREPLY: ${env:EMAIL__NOREPLY, ''}
+    FACEBOOK__APPID: ${env:FACEBOOK__APPID, ''}
+    FACEBOOK__APPSECRET: ${env:FACEBOOK__APPSECRET, ''}
+    GOOGLE__CLIENTID: ${env:GOOGLE__CLIENTID, ''}
+
+package:
+  artifact: bin/release/netcoreapp2.1/deploy-package.zip
+
+functions:
+  app:
+    handler: Halcyon.Api::Halcyon.Api.LambdaEntryPoint::FunctionHandlerAsync
+    events:
+        - http: ANY /
+        - http: 'ANY {proxy+}'

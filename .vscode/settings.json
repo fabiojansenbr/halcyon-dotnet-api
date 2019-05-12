@@ -1,7 +1,7 @@
 {
   "files.exclude": {
-    ".serverless": true,
-    ".vs": true,
+    "**/.serverless": true,
+    "**/.vs": true,
     "**/PublishProflles": true,
     "**/bin": true,
     "**/obj": true,

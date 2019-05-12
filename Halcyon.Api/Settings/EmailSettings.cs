@@ -10,6 +10,6 @@
 
         public string Password { get; set; }
 
-        public string NoReplyAddress { get; set; }
+        public string NoReply { get; set; }
     }
 }
