@@ -39,7 +39,7 @@ Create `appsettings.Development.json` file in project directory or configure use
 		"Port": "587",
 		"Username": "#REQUIRED#",
 		"Password": "#REQUIRED#",
-		"NoReplyAddress": "noreply@chrispoulter.com"
+		"NoReply": "noreply@chrispoulter.com"
 	},
 	"Authentication": {
 		"Facebook": {
