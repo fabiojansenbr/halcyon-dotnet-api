@@ -11,7 +11,7 @@ dotnet tool install --global Amazon.Lambda.Tools
 pushd Halcyon.Api
 
 dotnet restore
-dotnet lambda package --configuration release --framework netcoreapp2.1 --output-package bin/release/netcoreapp2.1/deploy-package.zip
+dotnet lambda package --configuration release --framework netcoreapp2.1 --output-package bin/deploy-package.zip
 
 # deploy serverless project
 npx serverless deploy --stage $AWS_STAGE --region $AWS_DEFAULT_REGION
