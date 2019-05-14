@@ -126,7 +126,7 @@ namespace Halcyon.Api
             app.UseSwaggerUI(options =>
             {
                 options.DocumentTitle = "Halcyon Api";
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Halcyon Api v1");
+                options.SwaggerEndpoint("../swagger/v1/swagger.json", "Halcyon Api v1");
             });
         }
     }
