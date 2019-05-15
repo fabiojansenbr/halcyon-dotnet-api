@@ -6,17 +6,17 @@ A .NET Core REST api project template.
 
 **Technologies used:**
 
-- .NET Core 
-[https://dotnet.microsoft.com](https://dotnet.microsoft.com)
+- .NET Core
+  [https://dotnet.microsoft.com](https://dotnet.microsoft.com)
 - Entity Framework Core
-[https://docs.microsoft.com/en-us/ef/core](https://docs.microsoft.com/en-us/ef/core)
+  [https://docs.microsoft.com/en-us/ef/core](https://docs.microsoft.com/en-us/ef/core)
 
 **External authentication providers:**
 
 - Facebook
-[https://developers.facebook.com](https://developers.facebook.com)
-- Google 
-[https://console.developers.google.com](https://console.developers.google.com)
+  [https://developers.facebook.com](https://developers.facebook.com)
+- Google
+  [https://console.developers.google.com](https://console.developers.google.com)
 
 #### Custom Settings
 
@@ -25,29 +25,29 @@ Create `appsettings.Development.json` file in project directory or configure use
 ```
 {
 	"ConnectionStrings": {
-		"DefaultConnection": "Server=tcp:localhost,1433;Initial Catalog=halcyon;Persist Security Info=False;User ID=sa;Password=yourStrong(!)Password;MultipleActiveResultSets=False;Connection Timeout=30;"
+		"DefaultConnection": ""
 	},
 	"Jwt": {
-		"SecurityKey": "nIgsA9xbC7Ts256l"
+		"SecurityKey": ""
 	},
 	"Seed": {
-		"EmailAddress": "admin@chrispoulter.com",
-		"Password": "Testing123"
+		"EmailAddress": "",
+		"Password": ""
 	},
 	"Email": {
-		"Host": "smtp.mailgun.org",
-		"Port": "587",
-		"Username": "#REQUIRED#",
-		"Password": "#REQUIRED#",
-		"NoReply": "noreply@chrispoulter.com"
+		"Host": "",
+		"Port": "",
+		"Username": "",
+		"Password": ",
+		"NoReply": ""
 	},
 	"Authentication": {
 		"Facebook": {
-			"AppId": "#REQUIRED#",
-			"AppSecret": "#REQUIRED#"
+			"AppId": "",
+			"AppSecret": "
 		},
 		"Google": {
-			"ClientId": "#REQUIRED#"
+			"ClientId": ""
 		}
 	}
 }
