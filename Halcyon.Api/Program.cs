@@ -12,9 +12,7 @@ namespace Halcyon.Api
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
-            return WebHost.CreateDefaultBuilder(args)
-                .UseApplicationInsights()
-                .UseStartup<Startup>();
+            return WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
         }
     }
 }
