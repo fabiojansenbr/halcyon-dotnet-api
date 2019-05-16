@@ -1,5 +1,4 @@
 using Halcyon.Api.Entities;
-using Halcyon.Api.Extensions;
 using Halcyon.Api.Models.User;
 using Halcyon.Api.Repositories;
 using Halcyon.Api.Services.Response;
@@ -38,10 +37,19 @@ namespace Halcyon.Api.Controllers
         public async Task<IActionResult> Index(int page = 1, int size = 10, string search = null, string sort = null)
         {
             var result = await _userRepository.SearchUsers(page, size, search, sort);
-            var model = result.MapPaginatedList<UserListModel, User, UserModel>(UserMapper);
 
-            model.Search = search;
-            model.Sort = sort;
+            var model = new UserListModel
+            {
+                Items = result.Items.Select(MapUser),
+                Page = result.Page,
+                Size = result.Size,
+                TotalPages = result.TotalPages,
+                TotalCount = result.TotalCount,
+                HasNextPage = result.HasNextPage,
+                HasPreviousPage = result.HasPreviousPage,
+                Search = search,
+                Sort = sort
+            };
 
             return _responseService.GenerateResponse(HttpStatusCode.OK, model);
         }
@@ -57,7 +65,7 @@ namespace Halcyon.Api.Controllers
                 return _responseService.GenerateResponse(HttpStatusCode.NotFound, "User could not be found.");
             }
 
-            var model = UserMapper(user);
+            var model = MapUser(user);
             return _responseService.GenerateResponse(HttpStatusCode.OK, model);
         }
 
@@ -188,7 +196,7 @@ namespace Halcyon.Api.Controllers
             return _responseService.GenerateResponse(HttpStatusCode.OK, "User successfully deleted.");
         }
 
-        private UserModel UserMapper(User user)
+        private UserModel MapUser(User user)
         {
             return new UserModel
             {

@@ -78,8 +78,8 @@ namespace Halcyon.Api.Repositories
 
         public async Task<PaginatedList<User>> SearchUsers(int page, int size, string search, string sort)
         {
-            var searchExpression = getSearchExpression(search);
-            var sortExpression = getSortExpression(sort);
+            var searchExpression = GetSearchExpression(search);
+            var sortExpression = GetSortExpression(sort);
 
             var totalCount = await _context.Users.Find(searchExpression).CountDocumentsAsync();
 
@@ -103,7 +103,7 @@ namespace Halcyon.Api.Repositories
             };
         }
 
-        private FilterDefinition<User> getSearchExpression(string search)
+        private FilterDefinition<User> GetSearchExpression(string search)
         {
             if (string.IsNullOrEmpty(search))
             {
@@ -113,7 +113,7 @@ namespace Halcyon.Api.Repositories
             return Builders<User>.Filter.Text(search);
         }
 
-        private SortDefinition<User> getSortExpression(string sort)
+        private SortDefinition<User> GetSortExpression(string sort)
         {
             switch (sort?.ToLowerInvariant())
             {
