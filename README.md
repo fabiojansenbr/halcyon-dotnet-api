@@ -25,8 +25,7 @@ Create `appsettings.Development.json` file in project directory or configure use
 ```
 {
 	"MongoDB": {
-		"ConnectionString": "",
-		"Database": ""
+		"Uri": ""
 	},
 	"Jwt": {
 		"SecurityKey": ""
