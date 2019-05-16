@@ -1,5 +1,5 @@
 ﻿using Halcyon.Api.Services.Providers;
-using System.ComponentModel.DataAnnotations;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Halcyon.Api.Entities
 {
@@ -11,19 +11,10 @@ namespace Halcyon.Api.Entities
             ExternalId = externalId;
         }
 
-        [Key]
-        [MaxLength(36)]
-        public string Id { get; set; }
-
-        [Required]
-        [MaxLength(36)]
-        public string UserId { get; set; }
-
-        [Required]
+        [BsonRequired]
         public Provider Provider { get; set; }
 
-        [Required]
-        [MaxLength(50)]
+        [BsonRequired]
         public string ExternalId { get; set; }
     }
 }

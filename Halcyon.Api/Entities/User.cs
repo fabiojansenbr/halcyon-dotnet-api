@@ -1,6 +1,7 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -10,56 +11,57 @@ namespace Halcyon.Api.Entities
     {
         public User()
         {
+            Id = ObjectId.GenerateNewId();
             Logins = new List<UserLogin>();
-            Roles = new List<UserRole>();
+            Roles = new List<string>();
             RefreshTokens = new List<UserRefreshToken>();
         }
 
-        [Key]
-        [MaxLength(36)]
-        public string Id { get; set; }
+        [BsonId]
+        public ObjectId Id { get; set; }
 
-        [Required]
-        [MaxLength(254)]
+        [BsonRequired]
         public string EmailAddress { get; set; }
 
-        [MaxLength(128)]
+        [BsonIgnoreIfDefault]
         public string Password { get; set; }
 
-        [Required]
-        [MaxLength(50)]
+        [BsonRequired]
         public string FirstName { get; set; }
 
-        [Required]
-        [MaxLength(50)]
+        [BsonRequired]
         public string LastName { get; set; }
 
-        [Required]
+        [BsonRequired]
+        [BsonDateTimeOptions]
         public DateTime DateOfBirth { get; set; }
 
-        [MaxLength(36)]
+        [BsonIgnoreIfDefault]
         public string VerifyEmailToken { get; set; }
 
-        [MaxLength(36)]
+        [BsonIgnoreIfDefault]
         public string PasswordResetToken { get; set; }
 
-        [MaxLength(50)]
+        [BsonIgnoreIfDefault]
         public string TwoFactorSecret { get; set; }
 
-        [MaxLength(50)]
+        [BsonIgnoreIfDefault]
         public string TwoFactorTempSecret { get; set; }
 
+        [BsonIgnoreIfDefault]
         public bool EmailConfirmed { get; set; }
 
+        [BsonIgnoreIfDefault]
         public bool IsLockedOut { get; set; }
 
+        [BsonIgnoreIfDefault]
         public bool TwoFactorEnabled { get; set; }
 
         public bool HasPassword => !string.IsNullOrEmpty(Password);
 
         public List<UserLogin> Logins { get; set; }
 
-        public List<UserRole> Roles { get; set; }
+        public List<string> Roles { get; set; }
 
         public List<UserRefreshToken> RefreshTokens { get; set; }
 

@@ -81,7 +81,7 @@ namespace Halcyon.Api.Controllers
                 DateOfBirth = model.DateOfBirth.GetValueOrDefault()
             };
 
-            user.Roles.AddRange(model.Roles.Select(a => new UserRole(a)));
+            user.Roles.AddRange(model.Roles);
 
             await _userRepository.CreateUser(user);
 
@@ -117,8 +117,8 @@ namespace Halcyon.Api.Controllers
             user.LastName = model.LastName;
             user.DateOfBirth = model.DateOfBirth.GetValueOrDefault();
 
-            user.Roles.RemoveAll(a => !model.Roles.Contains(a.Name));
-            user.Roles.AddRange(model.Roles.Where(a => user.Roles.All(b => b.Name != a)).Select(a => new UserRole(a)));
+            user.Roles.RemoveAll(a => !model.Roles.Contains(a));
+            user.Roles.AddRange(model.Roles.Where(a => user.Roles.All(b => b != a)));
 
             await _userRepository.UpdateUser(user);
 
@@ -137,7 +137,7 @@ namespace Halcyon.Api.Controllers
                 return _responseService.GenerateResponse(HttpStatusCode.NotFound, "User could not be found.");
             }
 
-            if (user.Id == HttpContext.User.Identity.Name)
+            if (user.Id.ToString() == HttpContext.User.Identity.Name)
             {
                 return _responseService.GenerateResponse(HttpStatusCode.BadRequest, "Cannot lock currently logged in user.");
             }
@@ -178,7 +178,7 @@ namespace Halcyon.Api.Controllers
                 return _responseService.GenerateResponse(HttpStatusCode.NotFound, "User could not be found.");
             }
 
-            if (user.Id == HttpContext.User.Identity.Name)
+            if (user.Id.ToString() == HttpContext.User.Identity.Name)
             {
                 return _responseService.GenerateResponse(HttpStatusCode.BadRequest, "Cannot delete currently logged in user.");
             }
@@ -192,7 +192,7 @@ namespace Halcyon.Api.Controllers
         {
             return new UserModel
             {
-                Id = user.Id,
+                Id = user.Id.ToString(),
                 EmailAddress = user.EmailAddress,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -202,7 +202,7 @@ namespace Halcyon.Api.Controllers
                 EmailConfirmed = user.EmailConfirmed,
                 TwoFactorEnabled = user.TwoFactorEnabled,
                 Picture = user.Picture,
-                Roles = user.Roles.Select(a => a.Name),
+                Roles = user.Roles,
                 Logins = user.Logins.Select(a => new ExternalLoginModel(a.Provider, a.ExternalId))
             };
         }

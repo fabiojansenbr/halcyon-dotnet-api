@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Halcyon.Api.Models
 {
@@ -13,10 +12,10 @@ namespace Halcyon.Api.Models
 
         public long TotalCount { get; set; }
 
-        public long TotalPages => (long)Math.Ceiling(TotalCount / (double)Size);
+        public long TotalPages { get; set; }
 
-        public bool HasPreviousPage => Page > 1;
+        public bool HasPreviousPage { get; set; }
 
-        public bool HasNextPage => Page < TotalPages;
+        public bool HasNextPage { get; set; }
     }
 }

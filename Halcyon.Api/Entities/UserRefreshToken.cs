@@ -1,5 +1,5 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace Halcyon.Api.Entities
 {
@@ -11,19 +11,11 @@ namespace Halcyon.Api.Entities
             Issued = DateTime.UtcNow;
         }
 
-        [Key]
-        [MaxLength(36)]
-        public string Id { get; set; }
-
-        [Required]
-        [MaxLength(36)]
-        public string UserId { get; set; }
-
-        [Required]
-        [MaxLength(36)]
+        [BsonRequired]
         public string Token { get; set; }
 
-        [Required]
+        [BsonRequired]
+        [BsonDateTimeOptions]
         public DateTime Issued { get; set; }
     }
 }

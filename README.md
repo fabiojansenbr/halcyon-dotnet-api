@@ -8,8 +8,8 @@ A .NET Core REST api project template.
 
 - .NET Core
   [https://dotnet.microsoft.com](https://dotnet.microsoft.com)
-- Entity Framework Core
-  [https://docs.microsoft.com/en-us/ef/core](https://docs.microsoft.com/en-us/ef/core)
+- MongoDB
+  [https://www.mongodb.com](https://www.mongodb.com)
 
 **External authentication providers:**
 
@@ -24,8 +24,9 @@ Create `appsettings.Development.json` file in project directory or configure use
 
 ```
 {
-	"ConnectionStrings": {
-		"DefaultConnection": ""
+	"MongoDB": {
+		"ConnectionString": "",
+		"Database": ""
 	},
 	"Jwt": {
 		"SecurityKey": ""

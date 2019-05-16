@@ -38,7 +38,7 @@ namespace Halcyon.Api.Services.Security
                 new Claim("picture", user.Picture)
             };
 
-            claims.AddRange(user.Roles.Select(role => new Claim("role", role.Name)));
+            claims.AddRange(user.Roles.Select(role => new Claim("role", role)));
 
             var token = new JwtSecurityToken(
                 audience: "HalcyonClient",

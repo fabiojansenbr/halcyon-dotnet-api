@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -34,11 +33,6 @@ namespace Halcyon.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<HalcyonDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection"),
-                    sql => sql.EnableRetryOnFailure()));
-
             services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
 
             services
@@ -99,12 +93,14 @@ namespace Halcyon.Api
             services.AddOptions();
             services.AddCors();
 
+            services.Configure<MongoDBSettings>(Configuration.GetSection("MongoDB"));
             services.Configure<SeedSettings>(Configuration.GetSection("Seed"));
             services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
             services.Configure<EmailSettings>(Configuration.GetSection("Email"));
             services.Configure<FacebookSettings>(Configuration.GetSection("Authentication:Facebook"));
             services.Configure<GoogleSettings>(Configuration.GetSection("Authentication:Google"));
 
+            services.AddSingleton<HalcyonDbContext>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IPasswordService, PasswordService>();
             services.AddTransient<ITwoFactorService, TwoFactorService>();

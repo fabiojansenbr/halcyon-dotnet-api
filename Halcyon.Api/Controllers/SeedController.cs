@@ -47,7 +47,7 @@ namespace Halcyon.Api.Controllers
                 DateOfBirth = new DateTime(1970, 1, 1)
             };
 
-            user.Roles.Add(new UserRole("System Administrator"));
+            user.Roles.Add("System Administrator");
 
             var existing = await _userRepository.GetUserByEmailAddress(user.EmailAddress);
             if (existing != null)

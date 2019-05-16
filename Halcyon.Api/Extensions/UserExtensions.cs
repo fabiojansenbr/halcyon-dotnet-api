@@ -1,5 +1,4 @@
 ﻿using Halcyon.Api.Entities;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace Halcyon.Api.Extensions
@@ -10,7 +9,7 @@ namespace Halcyon.Api.Extensions
         {
             if (!string.IsNullOrEmpty(search))
             {
-                query = query.Where(a => EF.Functions.Like(a.FirstName + " " + a.LastName + " " + a.EmailAddress, $"%{search}%"));
+                query = query.Where(a => (a.FirstName + " " + a.LastName + " " + a.EmailAddress).Contains(search));
             }
 
             return query;

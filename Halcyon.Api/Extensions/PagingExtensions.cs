@@ -1,24 +1,22 @@
 ﻿using Halcyon.Api.Models;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Halcyon.Api.Extensions
 {
     public static class PagingExtensions
     {
-        public static async Task<PaginatedList<T>> ToPaginatedListAsync<T>(
+        public static PaginatedList<T> ToPaginatedList<T>(
             this IQueryable<T> source,
             int page,
             int size)
         {
-            var count = await source.CountAsync();
+            var count = source.Count();
 
-            var result = await source
+            var result = source
                 .Skip((page - 1) * size)
                 .Take(size)
-                .ToListAsync();
+                .ToList();
 
             return new PaginatedList<T>
             {

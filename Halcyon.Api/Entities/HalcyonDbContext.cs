@@ -1,29 +1,36 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Halcyon.Api.Settings;
+using Microsoft.Extensions.Options;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Conventions;
+using MongoDB.Driver;
 
 namespace Halcyon.Api.Entities
 {
-    public class HalcyonDbContext : DbContext
+    public class HalcyonDbContext
     {
-        public HalcyonDbContext(DbContextOptions options)
-            : base(options)
+        private readonly IMongoDatabase _database = null;
+
+        public HalcyonDbContext(IOptions<MongoDBSettings> mongoDBSettings)
         {
+            var pack = new ConventionPack
+            {
+                new CamelCaseElementNameConvention(),
+                new EnumRepresentationConvention(BsonType.String)
+            };
+
+            ConventionRegistry.Register("camelCase", pack, t => true);
+
+            var settings = mongoDBSettings.Value;
+            var mongoUrl = new MongoUrl(settings.Uri);
+            var databaseName = mongoUrl.DatabaseName;
+
+            var client = new MongoClient(mongoUrl);
+            if (client != null)
+            {
+                _database = client.GetDatabase(databaseName);
+            }
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<User>()
-                .HasIndex(a => a.EmailAddress)
-                .IsUnique();
-
-            modelBuilder.Entity<UserRefreshToken>()
-                .HasIndex(a => a.Token)
-                .IsUnique();
-
-            modelBuilder.Entity<UserLogin>()
-                .HasIndex(a => new { a.Provider, a.ExternalId })
-                .IsUnique();
-        }
-
-        public DbSet<User> Users { get; set; }
+        public IMongoCollection<User> Users => _database.GetCollection<User>("users");
     }
 }

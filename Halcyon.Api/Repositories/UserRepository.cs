@@ -1,8 +1,9 @@
 ﻿using Halcyon.Api.Entities;
-using Halcyon.Api.Extensions;
 using Halcyon.Api.Models;
 using Halcyon.Api.Services.Providers;
-using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,57 +20,115 @@ namespace Halcyon.Api.Repositories
 
         public async Task Initialize()
         {
-            await _context.Database.MigrateAsync();
+            var indexes = new[]
+            {
+                new CreateIndexModel<User>(
+                    new IndexKeysDefinitionBuilder<User>().Text("$**")
+                ),
+
+                new CreateIndexModel<User>(
+                    new IndexKeysDefinitionBuilder<User>().Ascending(new StringFieldDefinition<User>("emailAddress")),
+                    new CreateIndexOptions { Unique = true }
+                )
+            };
+
+            await _context.Users.Indexes.CreateManyAsync(indexes);
         }
 
         public async Task<User> GetUserById(string id)
         {
-            return await Users.FirstOrDefaultAsync(a => a.Id == id);
+            var objectId = ObjectId.Parse(id);
+            var result = await _context.Users.FindAsync(a => a.Id == objectId);
+            return result.FirstOrDefault();
         }
 
         public async Task<User> GetUserByEmailAddress(string emailAddress)
         {
-            return await Users.FirstOrDefaultAsync(a => a.EmailAddress == emailAddress);
+            var result = await _context.Users.FindAsync(a => a.EmailAddress == emailAddress);
+            return result.FirstOrDefault();
         }
 
         public async Task<User> GetUserByRefreshToken(string refreshToken)
         {
-            return await Users.FirstOrDefaultAsync(a => a.RefreshTokens.Any(b => b.Token == refreshToken));
+            var result = await _context.Users.FindAsync(a => a.RefreshTokens.Any(b => b.Token == refreshToken));
+            return result.FirstOrDefault();
         }
+
 
         public async Task<User> GetUserByLogin(Provider provider, string externalId)
         {
-            return await Users.FirstOrDefaultAsync(a => a.Logins.Any(b => b.Provider == provider && b.ExternalId == externalId));
+            var result = await _context.Users.FindAsync(a => a.Logins.Any(b => b.Provider == provider && b.ExternalId == externalId));
+            return result.FirstOrDefault();
         }
 
         public async Task CreateUser(User user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            await _context.Users.InsertOneAsync(user);
         }
 
         public async Task UpdateUser(User user)
         {
-            await _context.SaveChangesAsync();
+            await _context.Users.ReplaceOneAsync(a => a.Id == user.Id, user);
         }
 
         public async Task RemoveUser(User user)
         {
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            await _context.Users.DeleteOneAsync(a => a.Id == user.Id);
         }
 
         public async Task<PaginatedList<User>> SearchUsers(int page, int size, string search, string sort)
         {
-            return await Users
-                .Search(search)
-                .Sort(sort)
-                .ToPaginatedListAsync(page, size);
+            var searchExpression = getSearchExpression(search);
+            var sortExpression = getSortExpression(sort);
+
+            var totalCount = await _context.Users.Find(searchExpression).CountDocumentsAsync();
+
+            var users = await _context.Users.Find(searchExpression)
+                .Sort(sortExpression)
+                .Limit(size)
+                .Skip(size * (page - 1))
+                .ToListAsync();
+
+            var totalPages = (long)Math.Ceiling(totalCount / (double)size);
+
+            return new PaginatedList<User>
+            {
+                Items = users,
+                Page = page,
+                Size = size,
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                HasPreviousPage = page > 1,
+                HasNextPage = page < totalPages
+            };
         }
 
-        private IQueryable<User> Users => _context.Users
-            .Include(a => a.RefreshTokens)
-            .Include(a => a.Logins)
-            .Include(a => a.Roles);
+        private FilterDefinition<User> getSearchExpression(string search)
+        {
+            if (string.IsNullOrEmpty(search))
+            {
+                return Builders<User>.Filter.Empty;
+            }
+
+            return Builders<User>.Filter.Text(search);
+        }
+
+        private SortDefinition<User> getSortExpression(string sort)
+        {
+            switch (sort?.ToLowerInvariant())
+            {
+                case "email_address":
+                    return Builders<User>.Sort.Ascending("EmailAddress");
+
+                case "email_address_desc":
+                    return Builders<User>.Sort.Descending("EmailAddress");
+
+                case "display_name_desc":
+                    return Builders<User>.Sort.Descending("FirstName").Descending("LastName");
+
+                default:
+                    return Builders<User>.Sort.Ascending("FirstName").Ascending("LastName");
+            }
+        }
     }
 }

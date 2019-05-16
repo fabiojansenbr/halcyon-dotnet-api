@@ -58,7 +58,7 @@ namespace Halcyon.Api.Controllers
 
             var model = new UserModel
             {
-                Id = user.Id,
+                Id = user.Id.ToString(),
                 EmailAddress = user.EmailAddress,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -68,7 +68,7 @@ namespace Halcyon.Api.Controllers
                 EmailConfirmed = user.EmailConfirmed,
                 TwoFactorEnabled = user.TwoFactorEnabled,
                 Picture = user.Picture,
-                Roles = user.Roles.Select(a => a.Name),
+                Roles = user.Roles,
                 Logins = user.Logins.Select(a => new ExternalLoginModel(a.Provider, a.ExternalId))
             };
 
