@@ -8,7 +8,6 @@ namespace Halcyon.Api.Extensions
     {
         public static IServiceCollection AddProviderFactory(this IServiceCollection services)
         {
-            services.AddHttpClient("Providers");
             services.AddTransient<FacebookProvider>();
             services.AddTransient<GoogleProvider>();
 

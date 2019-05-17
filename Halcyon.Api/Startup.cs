@@ -107,6 +107,7 @@ namespace Halcyon.Api
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IResponseService, ResponseService>();
 
+            services.AddHttpClient();
             services.AddHandlerFactory();
             services.AddProviderFactory();
         }

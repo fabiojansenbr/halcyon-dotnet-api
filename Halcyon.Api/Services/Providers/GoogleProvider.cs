@@ -23,9 +23,9 @@ namespace Halcyon.Api.Services.Providers
 
         public async Task<ProviderUserModel> GetUser(string accessToken)
         {
-            var client = _httpClientFactory.CreateClient("Providers");
-
+            var client = _httpClientFactory.CreateClient();
             var url = $"{BaseUrl}?access_token={accessToken}";
+
             var result = await client.GetAsync(url);
             if (!result.IsSuccessStatusCode)
             {
