@@ -14,7 +14,7 @@ namespace Halcyon.Api.Entities
             Id = ObjectId.GenerateNewId();
             Logins = new List<UserLogin>();
             Roles = new List<string>();
-            RefreshTokens = new List<UserRefreshToken>();
+            RefreshTokens = new List<string>();
         }
 
         [BsonId]
@@ -63,7 +63,7 @@ namespace Halcyon.Api.Entities
 
         public List<string> Roles { get; set; }
 
-        public List<UserRefreshToken> RefreshTokens { get; set; }
+        public List<string> RefreshTokens { get; set; }
 
         public string Picture
         {

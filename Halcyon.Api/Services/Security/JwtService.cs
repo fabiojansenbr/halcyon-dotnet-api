@@ -63,14 +63,14 @@ namespace Halcyon.Api.Services.Security
 
         private async Task<string> GenerateRefreshToken(User user)
         {
-            user.RefreshTokens = user.RefreshTokens.OrderByDescending(a => a.Issued).Take(10).ToList();
+            var token = Guid.NewGuid().ToString();
 
-            var refreshToken = new UserRefreshToken();
-            user.RefreshTokens.Add(refreshToken);
+            user.RefreshTokens = user.RefreshTokens.Skip(Math.Max(0, user.RefreshTokens.Count - 10)).ToList();
+            user.RefreshTokens.Add(token);
 
             await _userRepository.UpdateUser(user);
 
-            return refreshToken.Token;
+            return token;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Halcyon.Api.Services.Handlers
                 return new HandlerResult(isLockedOut: true);
             }
 
-            user.RefreshTokens.RemoveAll(a => a.Token == model.RefreshToken);
+            user.RefreshTokens.Remove(model.RefreshToken);
 
             return new HandlerResult(user);
         }

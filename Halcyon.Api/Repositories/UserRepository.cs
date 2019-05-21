@@ -50,7 +50,7 @@ namespace Halcyon.Api.Repositories
 
         public async Task<User> GetUserByRefreshToken(string refreshToken)
         {
-            var result = await _context.Users.FindAsync(a => a.RefreshTokens.Any(b => b.Token == refreshToken));
+            var result = await _context.Users.FindAsync(a => a.RefreshTokens.Contains(refreshToken));
             return result.FirstOrDefault();
         }
 
