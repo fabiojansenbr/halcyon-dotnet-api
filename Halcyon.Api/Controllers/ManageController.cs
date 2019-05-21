@@ -1,5 +1,4 @@
-﻿using Halcyon.Api.Entities;
-using Halcyon.Api.Models.Email;
+﻿using Halcyon.Api.Models.Email;
 using Halcyon.Api.Models.Manage;
 using Halcyon.Api.Models.User;
 using Halcyon.Api.Repositories;
@@ -13,6 +12,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using static Halcyon.Api.Entities.User;
 
 namespace Halcyon.Api.Controllers
 {

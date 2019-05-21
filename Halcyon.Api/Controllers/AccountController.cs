@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using static Halcyon.Api.Entities.User;
 
 namespace Halcyon.Api.Controllers
 {

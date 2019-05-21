@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Halcyon.Api.Services.Providers;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
@@ -80,6 +81,21 @@ namespace Halcyon.Api.Entities
 
                 return $"https://secure.gravatar.com/avatar/{sb}?d=mm";
             }
+        }
+
+        public class UserLogin
+        {
+            public UserLogin(Provider provider, string externalId)
+            {
+                Provider = provider;
+                ExternalId = externalId;
+            }
+
+            [BsonRequired]
+            public Provider Provider { get; set; }
+
+            [BsonRequired]
+            public string ExternalId { get; set; }
         }
     }
 }
