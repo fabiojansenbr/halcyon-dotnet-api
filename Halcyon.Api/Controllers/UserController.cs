@@ -124,9 +124,7 @@ namespace Halcyon.Api.Controllers
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.DateOfBirth = model.DateOfBirth.GetValueOrDefault();
-
-            user.Roles.RemoveAll(a => !model.Roles.Contains(a));
-            user.Roles.AddRange(model.Roles.Where(a => user.Roles.All(b => b != a)));
+            user.Roles = model.Roles.ToList();
 
             await _userRepository.UpdateUser(user);
 
