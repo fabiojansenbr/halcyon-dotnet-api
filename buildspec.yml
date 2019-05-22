@@ -1,0 +1,16 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      dotnet: 2.2
+      nodejs: 10
+
+  build:
+    commands:
+      - cd Halcyon.Api
+      - dotnet tool install --global Amazon.Lambda.Tools
+      - dotnet restore
+      - dotnet lambda package --configuration release --framework netcoreapp2.1 --output-package bin/deploy-package.zip
+
+      - npx serverless deploy --stage $AWS_STAGE --region $AWS_REGION
