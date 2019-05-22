@@ -13,4 +13,5 @@ phases:
       - dotnet restore
       - dotnet lambda package --configuration release --framework netcoreapp2.1 --output-package bin/deploy-package.zip
 
-      - npx serverless deploy --stage $AWS_STAGE --region $AWS_REGION
+      - npm install -g serverless --ignore-scripts spawn-sync
+      - serverless deploy --stage $AWS_STAGE --region $AWS_REGION
