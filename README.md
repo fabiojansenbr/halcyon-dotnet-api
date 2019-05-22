@@ -41,14 +41,12 @@ Create `appsettings.Development.json` file in project directory or configure use
 		"Password": ",
 		"NoReply": ""
 	},
-	"Authentication": {
-		"Facebook": {
-			"AppId": "",
-			"AppSecret": "
-		},
-		"Google": {
-			"ClientId": ""
-		}
+	"Facebook": {
+		"AppId": "",
+		"AppSecret": "
+	},
+	"Google": {
+		"ClientId": ""
 	}
 }
 ```

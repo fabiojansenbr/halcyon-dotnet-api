@@ -96,8 +96,8 @@ namespace Halcyon.Api
             services.Configure<SeedSettings>(Configuration.GetSection("Seed"));
             services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
             services.Configure<EmailSettings>(Configuration.GetSection("Email"));
-            services.Configure<FacebookSettings>(Configuration.GetSection("Authentication:Facebook"));
-            services.Configure<GoogleSettings>(Configuration.GetSection("Authentication:Google"));
+            services.Configure<FacebookSettings>(Configuration.GetSection("Facebook"));
+            services.Configure<GoogleSettings>(Configuration.GetSection("Google"));
 
             services.AddSingleton<HalcyonDbContext>();
             services.AddTransient<IUserRepository, UserRepository>();
