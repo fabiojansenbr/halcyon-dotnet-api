@@ -28,5 +28,11 @@ functions:
   app:
     handler: Halcyon.Api::Halcyon.Api.LambdaEntryPoint::FunctionHandlerAsync
     events:
-        - http: ANY /
-        - http: 'ANY {proxy+}'
+      - http:
+          path: /
+          method: ANY
+          cors: true
+      - http:
+          path: "{proxy+}"
+          method: ANY
+          cors: true
